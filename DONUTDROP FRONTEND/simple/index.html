@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DonutDrop - Open cases, win items</title>
+  <meta name="description" content="Open cases and win Minecraft items. Provably fair." />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Point this at the API if it is not on localhost:3001 -->
+  <script>window.DONUTDROP_API_URL = window.DONUTDROP_API_URL || 'http://localhost:3001';</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-mark">🍩</span>
+      <span>DonutDrop</span>
+    </a>
+    <nav class="links">
+      <a href="#cases">Cases</a>
+      <a href="#drops">Live drops</a>
+      <a href="#how">How it works</a>
+      <a href="#fair">Fairness</a>
+    </nav>
+    <div class="account" id="account">
+      <button class="btn btn-ghost" id="login-btn" type="button">Log in</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <h1>Open cases.<br />Win real items.</h1>
+      <p class="hero-sub">Pick a case, spend your balance, and see what drops. Every roll is provably fair.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#cases">Browse cases</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+    </section>
+
+    <section class="ticker" id="drops" aria-label="Recent wins">
+      <div class="ticker-label">Live drops</div>
+      <div class="ticker-track" id="ticker">
+        <span class="muted">Loading…</span>
+      </div>
+    </section>
+
+    <section class="section" id="cases">
+      <div class="section-head">
+        <h2>Cases</h2>
+        <span class="muted" id="cases-count"></span>
+      </div>
+      <div class="grid" id="cases-grid">
+        <p class="muted">Loading cases…</p>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Log in</h3>
+          <p>Link your Minecraft account with a quick in-game message. No password needed.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Open a case</h3>
+          <p>Spend balance on a case. The server picks the item from the case's drop table.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Keep or sell</h3>
+          <p>Keep what you win or sell it back to fund your next case.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fair">
+      <h2>Provably fair</h2>
+      <p class="prose">
+        Before each open, the server commits to a secret seed by showing you its hash. You add your own
+        client seed. The result comes from HMAC-SHA256 over both, so neither side can change the outcome
+        after the fact. The seed is revealed after the round so you can verify it yourself.
+      </p>
+      <p class="muted small" id="fair-status"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© DonutDrop</span>
+    <span class="muted">Play responsibly.</span>
+  </footer>
+
+  <!-- Login modal -->
+  <div class="modal" id="login-modal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close aria-label="Close">×</button>
+      <h2>Log in</h2>
+      <form id="login-form" class="stack">
+        <label for="mc-name">Minecraft username</label>
+        <input id="mc-name" name="minecraftUsername" autocomplete="username" maxlength="16" required placeholder="Steve" />
+        <button class="btn btn-primary" type="submit" id="login-submit">Continue</button>
+      </form>
+      <div id="login-step" class="stack" hidden>
+        <p id="login-instruction"></p>
+        <p class="muted small">Waiting for your payment in-game…</p>
+      </div>
+      <p class="error" id="login-error" hidden></p>
+    </div>
+  </div>
+
+  <!-- Case modal -->
+  <div class="modal" id="case-modal" hidden>
+    <div class="modal-card wide">
+      <button class="modal-close" type="button" data-close aria-label="Close">×</button>
+      <div id="case-detail"></div>
+    </div>
+  </div>
+
+  <!-- Result toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
