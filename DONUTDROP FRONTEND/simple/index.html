@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1020" />
-  <title>DonutFlash - In-game money games</title>
   <meta name="description" content="DonutFlash: case battles, crash, mines and more. In-game money only." />
+  <title>DonutFlash - In-game money games</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b5bff'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23ffb020'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Point this at the API if it is not on localhost:3001 -->
   <script>window.DONUTDROP_API_URL = window.DONUTDROP_API_URL || 'http://localhost:3001';</script>
 </head>
 <body>
@@ -16,10 +16,10 @@
   </div>
 
   <header class="topbar">
-    <div class="brand">
-      <span class="brand-gem">◆</span>
+    <a class="brand" href="#/games">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#3b5bff"/><circle cx="16" cy="16" r="7" fill="#ffb020"/><circle cx="16" cy="16" r="2.5" fill="#0b1020"/></svg>
       <span>DonutFlash</span>
-    </div>
+    </a>
     <div class="top-actions">
       <button class="icon-btn" id="settings-btn" type="button" aria-label="Settings">⚙</button>
       <div class="wallet" id="wallet">
@@ -37,113 +37,51 @@
         </div>
       </div>
       <button class="btn btn-primary btn-sm" id="login-btn" type="button">Log in</button>
+      <button class="btn btn-ghost btn-sm" id="logout-btn" type="button" hidden>Log out</button>
     </div>
   </header>
 
-  <main>
-    <!-- GAMES -->
-    <section class="view" data-view="games">
-      <div class="welcome">
-        <h1 id="welcome-title">Welcome to DonutFlash</h1>
-        <p class="muted">The only legit DonutSMP casino. In-game money only.</p>
-        <div class="welcome-actions">
-          <button class="btn btn-primary" type="button" data-go="rewards">Deposit</button>
-          <button class="btn btn-ghost" type="button" data-go="rewards">Rewards</button>
-        </div>
-      </div>
-
-      <div class="promo-row">
-        <button class="promo promo-a" type="button" data-go="rewards"><span class="tag">Free rewards</span><b>Referrals</b><small>Invite friends, earn commission</small></button>
-        <button class="promo promo-b" type="button" data-go="rewards"><span class="tag">Weekly leaderboard</span><b>Race</b><small>Climb the board, win prizes</small></button>
-      </div>
-
-      <h2 class="section-title">Cases</h2>
-      <div class="grid" id="cases-grid"><p class="muted">Loading cases…</p></div>
-
-      <h2 class="section-title">DonutFlash Originals</h2>
-      <div class="grid games" id="games-grid"></div>
-    </section>
-
-    <!-- REWARDS -->
-    <section class="view" data-view="rewards" hidden>
-      <h2 class="section-title">Rewards</h2>
-      <p class="muted">Free cases, rakeback, bonuses and promo codes. Everything is credited to your balance.</p>
-      <div class="panel">
-        <div class="row"><b>Free cases</b><span class="muted" id="free-cases-note">Log in to see your daily cases.</span></div>
-      </div>
-      <div class="panel">
-        <div class="row"><b>Weekly race</b><span class="muted">Prize pool shown when a race is live.</span></div>
-      </div>
-      <div class="panel">
-        <div class="row"><b>Referrals</b><span class="muted">Share your code to earn commission.</span></div>
-      </div>
-    </section>
-
-    <!-- LEADERBOARD -->
-    <section class="view" data-view="leaderboard" hidden>
-      <h2 class="section-title">Leaderboard</h2>
-      <div class="panel" id="leaderboard-list"><p class="muted">Loading…</p></div>
-    </section>
-
-    <!-- CHAT -->
-    <section class="view" data-view="chat" hidden>
-      <h2 class="section-title">Chat</h2>
-      <div class="panel chat" id="chat-list"><p class="muted">Loading…</p></div>
-    </section>
-  </main>
+  <main id="view"></main>
 
   <nav class="bottomnav" aria-label="Main">
-    <button type="button" data-tab="chat">💬<span>Chat</span></button>
-    <button type="button" data-tab="games" class="active">🎮<span>Games</span></button>
-    <button type="button" data-tab="rewards">🎁<span>Rewards</span></button>
-    <button type="button" data-tab="leaderboard">🏆<span>Leaderboard</span></button>
+    <a href="#/chat" data-tab="chat"><span class="ico">💬</span><span>Chat</span></a>
+    <a href="#/games" data-tab="games"><span class="ico">🎮</span><span>Games</span></a>
+    <a href="#/rewards" data-tab="rewards"><span class="ico">🎁</span><span>Rewards</span></a>
+    <a href="#/leaderboard" data-tab="leaderboard"><span class="ico">🏆</span><span>Leaderboard</span></a>
   </nav>
 
-  <!-- Settings -->
   <div class="modal" id="settings-modal" hidden>
     <div class="modal-card">
       <button class="modal-close" type="button" data-close aria-label="Close">×</button>
       <h2>Settings</h2>
-      <label class="switch-row">
-        <span>Button sounds</span>
-        <input type="checkbox" id="sound-toggle" checked />
-      </label>
-      <label class="stack small">
-        <span class="muted">Volume</span>
-        <input type="range" id="volume" min="0" max="100" value="70" />
-      </label>
+      <label class="switch-row"><span>Button sounds</span><input type="checkbox" id="sound-toggle" checked /></label>
+      <label class="stack small"><span class="muted">Volume</span><input type="range" id="volume" min="0" max="100" value="70" /></label>
       <p class="muted small">Each game keeps its own sound switch in its toolbar.</p>
     </div>
   </div>
 
-  <!-- Login -->
   <div class="modal" id="login-modal" hidden>
     <div class="modal-card">
       <button class="modal-close" type="button" data-close aria-label="Close">×</button>
       <h2>What's your in-game name?</h2>
       <p class="muted small">We use it only to find your Minecraft account, so we can show you in chat, on the leaderboard and in games. It does not move any money.</p>
-
       <form id="login-form" class="stack">
         <input id="mc-name" name="minecraftUsername" autocomplete="username" maxlength="16" required placeholder="Your Minecraft name" />
         <button class="btn btn-primary btn-block" id="login-submit" type="submit">Use this name</button>
       </form>
-
       <div id="login-step" class="stack" hidden>
         <p>Send this exact command in-game:</p>
         <div class="code" id="login-instruction"></div>
         <p class="muted small">Waiting for your command in-game…</p>
       </div>
-
       <div class="or">or</div>
       <button class="btn btn-ghost btn-block" type="button" disabled>Create account with password (coming soon)</button>
       <button class="btn btn-ghost btn-block" type="button" disabled>Log in with Discord (coming soon)</button>
       <button class="btn btn-ghost btn-block" type="button" disabled>Log in with Google (coming soon)</button>
-
       <p class="error small" id="login-error" hidden></p>
     </div>
   </div>
 
-  <!-- Case modal -->
   <div class="modal" id="case-modal" hidden>
     <div class="modal-card">
       <button class="modal-close" type="button" data-close aria-label="Close">×</button>
