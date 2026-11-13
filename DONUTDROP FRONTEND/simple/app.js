@@ -351,7 +351,7 @@ function gameHeader(game) {
 }
 
 function demoBar() {
-  return `<div class="row" style="margin-bottom:.6rem"><span class="muted small">Demo credits</span><b id="demo-bal">${fmtNum(state.demo)}</b></div>`;
+  return `<div class="demo-pill"><span class="muted small">Demo credits</span><b id="demo-bal">${fmtNum(state.demo)}</b></div>`;
 }
 
 function renderGame(key) {
