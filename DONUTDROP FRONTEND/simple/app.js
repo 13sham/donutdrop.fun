@@ -112,11 +112,22 @@ function toast(message, kind = '') {
 function gameArt(game) {
   const h = game.hue;
   const id = 'g' + game.key.replace(/[^a-z]/g, '');
-  const bg = `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="hsl(${h} 85% 60%)"/><stop offset="1" stop-color="hsl(${h} 70% 25%)"/></linearGradient></defs>
+  const bg = `<defs>
+    <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(${h} 90% 62%)"/><stop offset="1" stop-color="hsl(${h} 70% 24%)"/>
+    </linearGradient>
+    <radialGradient id="${id}s" cx=".3" cy=".2" r=".7">
+      <stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="${id}f" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
     <rect width="100" height="100" rx="18" fill="url(#${id})"/>
+    <rect width="100" height="100" rx="18" fill="url(#${id}s)"/>
     <circle cx="82" cy="18" r="16" fill="rgba(255,255,255,.12)"/>
-    <circle cx="14" cy="88" r="10" fill="rgba(0,0,0,.18)"/>`;
+    <circle cx="14" cy="88" r="10" fill="rgba(0,0,0,.18)"/>
+    <g filter="url(#${id}f)">`;
   const glyphs = {
     battle: '<path d="M30 70 L70 30 M70 70 L30 30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>',
     limbo: '<path d="M18 72 L40 52 L56 60 L82 26" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>',
@@ -134,7 +145,7 @@ function gameArt(game) {
     fish: '<ellipse cx="48" cy="50" rx="26" ry="16" fill="#fff"/><path d="M70 50 L84 38 L84 62 Z" fill="#fff"/><circle cx="36" cy="46" r="3" fill="#222"/>',
     derby: '<path d="M22 66 L38 34 L60 34 L72 46 L80 46 L76 66 Z" fill="#fff"/><path d="M30 66 V80 M70 66 V80" stroke="#fff" stroke-width="5"/>',
   };
-  return `<svg viewBox="0 0 100 100" aria-hidden="true">${bg}${glyphs[game.glyph] || ''}</svg>`;
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${bg}${glyphs[game.glyph] || ''}</g></svg>`;
 }
 
 // ---------- navigation ----------
@@ -226,7 +237,7 @@ function renderGames() {
     <div class="grid" id="cases-grid"><p class="muted">Loading cases…</p></div>
 
     <h2 class="section-title">DonutFlash Originals</h2>
-    <div class="grid">${games}</div>
+    <div class="grid games">${games}</div>
   `);
 
   $('#hero-login')?.addEventListener('click', openLogin);
